@@ -1,1 +1,1 @@
-# SocialMediaPostGeneratot
+# SocialMediaPostGenerator
