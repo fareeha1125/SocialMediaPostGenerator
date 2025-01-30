@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
 
 const TONE_OPTIONS = [
   'Professional',
@@ -15,6 +14,16 @@ const TONE_OPTIONS = [
 ] as const;
 
 type ToneOption = typeof TONE_OPTIONS[number];
+
+interface GeneratePostParams {
+  description: string;
+  platform: string;
+  tone: string;
+  wordLimit?: number;
+  makeThread?: boolean;
+  includeHashtags: boolean;
+  includeEmoji: boolean;
+}
 
 function Page() {
   // Client-side only state
@@ -43,7 +52,7 @@ function Page() {
     return null;
   }
 
-  const generateSinglePost = async (params: any) => {
+  const generateSinglePost = async (params: GeneratePostParams) => {
     const response = await fetch('/api/generate-post', {
       method: 'POST',
       headers: {
@@ -73,9 +82,9 @@ function Page() {
           generateSinglePost({ 
             description, 
             platform, 
-            makeThread, 
-            wordLimit: platform === 'linkedin' ? wordLimit : undefined,
             tone,
+            wordLimit: platform === 'linkedin' ? wordLimit : undefined,
+            makeThread,
             includeHashtags,
             includeEmoji,
           })
